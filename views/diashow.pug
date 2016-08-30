@@ -1,0 +1,55 @@
+html
+  head
+    link(rel='stylesheet', href='slideshow.css')
+    script(src='slideshow.js')
+    style.
+      body {
+        background-color: black;
+      }
+  body
+    ul(class='slideshow', id='list')
+    img(src='', id='image')
+    #comment
+    script(type='text/javascript').
+      var slsh = null;
+      function updateShow(data) {
+        console.log(data);
+
+        var img = document.createElement('img');
+        var src = document.createAttribute("src");
+        var title = document.createAttribute("title");
+        var height = document.createAttribute("height");
+        src.value = "data:" + data.mimetype + ";base64," + data.image;
+        title.value = data.comment;
+        height.value = "100%";
+        img.setAttributeNode(title);
+        img.setAttributeNode(src);
+        img.setAttributeNode(height);
+
+        var a = document.createElement('a');
+        var href = document.createAttribute("href");
+        href.value = "#";
+        a.setAttributeNode(href);
+        a.appendChild(img);
+
+        var li = document.createElement('li');
+        li.appendChild(a);
+        var ul = document.getElementById('list');
+        ul.appendChild(li);
+
+        //<li><a href="test1.html"><img src="test1.jpg" title="Test 1" alt="Description for image 1"></a></li>
+        //var image = document.getElementById('image');
+        //var comment = document.getElementById('comment');
+        //image.src = "data:" + data.mimetype + ";base64," + data.image;
+        //comment.innerHTML = data.comment;
+        if (slsh) slsh.destroy();
+        slsh = new SlideShow('.slideshow', {timeout: 5000});
+      }
+      var host = window.document.location.host.replace(/:.*/, '');
+      var ws = new WebSocket('ws://' + host + ':3000');
+      ws.onmessage = function (event) {
+        updateShow(JSON.parse(event.data));
+      };
+      ws.onopen = function () {
+        ws.send('diashow');
+      };

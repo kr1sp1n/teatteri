@@ -1,0 +1,9 @@
+html
+  head
+    title= title
+  body
+    h1= message
+    form(action='/photos/upload', method='POST', enctype='multipart/form-data')
+      input(type='text', name='comment')
+      input(type='file', name='photo')
+      input(type='submit', value='Upload Photo')
