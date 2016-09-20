@@ -6,6 +6,23 @@ html
       body {
         background-color: black;
       }
+
+      .orient1 {
+        transform: rotate(0);
+      }
+
+      .orient3 {
+        transform: rotate(180deg);
+      }
+
+      .orient6 {
+        transform: rotate(90deg);
+      }
+
+      .orient8 {
+        transform: rotate(-90deg);
+      }
+
   body
     ul(class='slideshow', id='list')
     img(src='', id='image')
@@ -19,12 +36,15 @@ html
         var src = document.createAttribute("src");
         var title = document.createAttribute("title");
         var height = document.createAttribute("height");
+        var _class = document.createAttribute("class");
         src.value = "data:" + data.mimetype + ";base64," + data.image;
         title.value = data.comment;
         height.value = "100%";
+        _class.value = "orient" + data.orientation;
         img.setAttributeNode(title);
         img.setAttributeNode(src);
         img.setAttributeNode(height);
+        img.setAttributeNode(_class);
 
         var a = document.createElement('a');
         var href = document.createAttribute("href");
@@ -37,11 +57,6 @@ html
         var ul = document.getElementById('list');
         ul.appendChild(li);
 
-        //<li><a href="test1.html"><img src="test1.jpg" title="Test 1" alt="Description for image 1"></a></li>
-        //var image = document.getElementById('image');
-        //var comment = document.getElementById('comment');
-        //image.src = "data:" + data.mimetype + ";base64," + data.image;
-        //comment.innerHTML = data.comment;
         if (slsh) slsh.destroy();
         slsh = new SlideShow('.slideshow', {timeout: 5000});
       }
