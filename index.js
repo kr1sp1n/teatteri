@@ -56,7 +56,8 @@ wss.on('connection', (ws) => {
       if (err) return console.log(err);
       files.forEach((file) => {
         const parsed = path.parse(file);
-        if (parsed.name !== '.DS_Store') {
+        const ext = parsed.ext.toLowerCase();
+        if (ext === '.jpg' || ext === '.jpeg') {
           const data = {
             id: parsed.name,
             mimetype: 'image/jpeg'
