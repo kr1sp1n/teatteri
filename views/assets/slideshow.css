@@ -1,3 +1,4 @@
+/* only rotate images */
 .orient1 {
   transform: rotate(0);
 }
@@ -14,25 +15,21 @@
   transform: rotate(-90deg);
 }
 
-@keyframes kenburns {
-  0% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 0;
-  }
-  25% {
-    opacity: 1;
-  }
-  95% {
-    transform: scale(1.5);
-    animation-timing-function: ease-in;
-    opacity: 1;
-  }
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
+/* rotate AND flip images if they're mirrored */
+.orient2 {
+  transform: scaleX(-1);
+}
+
+.orient4 {
+  transform: scaleY(-1);
+}
+
+.orient5 {
+  transform: scaleX(-1) rotate(90deg);
+}
+
+.orient7 {
+  transform: scaleY(-1) rotate(90deg);
 }
 
 .slideshow {
@@ -49,7 +46,6 @@
 }
 .slideshow img {
   max-width: 100%;
-  /*animation: kenburns 10s infinite;*/
 }
 .slideshow li {
   position: absolute;
