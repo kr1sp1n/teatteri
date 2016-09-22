@@ -33,7 +33,7 @@ const imageOrientation = (value, done) => {
 };
 
 app.set('view engine', 'pug');
-app.use(express.static('node_modules/simple-slideshow/src'));
+app.use(express.static('views/assets'));
 
 app.get('/', (req, res) => {
   res.render('index', { title: 'Hey', message: 'Hello there!'});
@@ -51,7 +51,6 @@ wss.on('connection', (ws) => {
       ws.id = uuid.v1();
       diashowClients.push(ws);
     }
-    console.log('received: %s', message);
     fs.readdir(uploadDir, (err, files) => {
       if (err) return console.log(err);
       files.forEach((file) => {
@@ -81,8 +80,6 @@ wss.on('connection', (ws) => {
 });
 
 app.post('/photos/upload', upload.single('photo'), (req, res) => {
-  // console.log(req.body);
-  // console.log(req.file);
   if(!req.file) {
     return res.status(301).end();
   }
@@ -94,10 +91,8 @@ app.post('/photos/upload', upload.single('photo'), (req, res) => {
   data.mimetype = req.file.mimetype;
   imageOrientation(req.file.buffer, (err, orientation) => {
     data.orientation = orientation;
-    console.log('writeFile!');
     fs.writeFile(uploadDir + '/' + id + '.jpg', req.file.buffer, (err) => {
       if (err) return console.log(err);
-      console.log('broadcast!');
       broadcast(diashowClients, data);
     });
   });

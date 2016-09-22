@@ -2,32 +2,26 @@ html
   head
     link(rel='stylesheet', href='slideshow.css')
     script(src='slideshow.js')
-    style.
-      body {
-        background-color: black;
-      }
-
-      .orient1 {
-        transform: rotate(0);
-      }
-
-      .orient3 {
-        transform: rotate(180deg);
-      }
-
-      .orient6 {
-        transform: rotate(90deg);
-      }
-
-      .orient8 {
-        transform: rotate(-90deg);
-      }
-
   body
     ul(class='slideshow', id='list')
     img(src='', id='image')
     #comment
     script(type='text/javascript').
+      //- Get todays date
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; //January is 0!
+      var yyyy = today.getFullYear();
+
+      if(dd<10) {
+          dd='0'+dd
+      }
+      if(mm<10) {
+          mm='0'+mm
+      } 
+
+      today = dd+'.'+mm+'.'+yyyy;
+
       var slsh = null;
       function updateShow(data) {
         console.log(data);
@@ -38,9 +32,13 @@ html
         var height = document.createAttribute("height");
         var _class = document.createAttribute("class");
         src.value = "data:" + data.mimetype + ";base64," + data.image;
-        title.value = data.comment;
+        if (data.comment && data.comment != 'undefinded') {
+          title.value = data.comment;
+        } else {
+          title.value = today;
+        }
         height.value = "100%";
-        _class.value = "orient" + data.orientation;
+        _class.value = "cover orient" + data.orientation;
         img.setAttributeNode(title);
         img.setAttributeNode(src);
         img.setAttributeNode(height);
@@ -58,7 +56,7 @@ html
         ul.appendChild(li);
 
         if (slsh) slsh.destroy();
-        slsh = new SlideShow('.slideshow', {timeout: 5000});
+        slsh = new SlideShow('.slideshow', {timeout: 10000});
       }
       var host = window.document.location.host.replace(/:.*/, '');
       var ws = new WebSocket('ws://' + host + ':3000');
