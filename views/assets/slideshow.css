@@ -98,6 +98,6 @@ body {
   background-color: #250018;
 }
 .cover {
-  object-fit: cover;
+  object-fit: contain;
   width: 100%;
 }
