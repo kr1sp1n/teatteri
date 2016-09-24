@@ -1,5 +1,5 @@
 {
-  "name": "hochzeitsphotomaschine",
+  "name": "teatteri",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,6 +14,7 @@
     "express": "4.14.0",
     "multer": "1.2.0",
     "pug": "2.0.0-alpha6",
+    "qrcode": "0.5.0",
     "simple-slideshow": "2.0.0",
     "uuid": "2.0.2",
     "ws": "1.1.1"

@@ -7,57 +7,13 @@ html
     img(src='', id='image')
     #comment
     script(type='text/javascript').
-      //- Get todays date
-      var today = new Date();
-      var dd = today.getDate();
-      var mm = today.getMonth()+1; //January is 0!
-      var yyyy = today.getFullYear();
+      var slsh = new SlideShow('.slideshow', {timeout: 10000});
 
-      if(dd<10) {
-          dd='0'+dd
-      }
-      if(mm<10) {
-          mm='0'+mm
-      } 
-
-      today = dd+'.'+mm+'.'+yyyy;
-
-      var slsh = null;
       function updateShow(data) {
         console.log(data);
-
-        var img = document.createElement('img');
-        var src = document.createAttribute("src");
-        var title = document.createAttribute("title");
-        var height = document.createAttribute("height");
-        var _class = document.createAttribute("class");
-        src.value = "data:" + data.mimetype + ";base64," + data.image;
-        if (data.comment && data.comment != 'undefinded') {
-          title.value = data.comment;
-        } else {
-          title.value = today;
-        }
-        height.value = "100%";
-        _class.value = "cover orient" + data.orientation;
-        img.setAttributeNode(title);
-        img.setAttributeNode(src);
-        img.setAttributeNode(height);
-        img.setAttributeNode(_class);
-
-        var a = document.createElement('a');
-        var href = document.createAttribute("href");
-        href.value = "#";
-        a.setAttributeNode(href);
-        a.appendChild(img);
-
-        var li = document.createElement('li');
-        li.appendChild(a);
-        var ul = document.getElementById('list');
-        ul.appendChild(li);
-
-        if (slsh) slsh.destroy();
-        slsh = new SlideShow('.slideshow', {timeout: 10000});
+        slsh.add(data);
       }
+
       var host = window.document.location.host.replace(/:.*/, '');
       var ws = new WebSocket('ws://' + host + ':3000');
       ws.onmessage = function (event) {
