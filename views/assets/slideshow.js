@@ -59,6 +59,22 @@
       }.bind(this), options.timeout);
     }
 
+    function today() {
+      //- Get todays date
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; //January is 0!
+      var yyyy = today.getFullYear();
+
+      if(dd<10) {
+          dd='0'+dd
+      }
+      if(mm<10) {
+          mm='0'+mm
+      }
+      return dd + '.' + mm + '.' + yyyy;
+    }
+
     SlideShow.prototype = {
         constructor: SlideShow,
         add: function (data) {
@@ -71,10 +87,11 @@
           if (data.comment && data.comment != 'undefinded') {
             title.value = data.comment;
           } else {
-            title.value = today;
+            title.value = today();
           }
           height.value = "100%";
           _class.value = "cover orient" + data.orientation;
+          img.setAttributeNode(title);
           img.setAttributeNode(src);
           img.setAttributeNode(height);
           img.setAttributeNode(_class);

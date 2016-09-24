@@ -8,26 +8,12 @@ html
     #comment
     script(type='text/javascript').
       var slsh = new SlideShow('.slideshow', {timeout: 10000});
-      //- Get todays date
-      var today = new Date();
-      var dd = today.getDate();
-      var mm = today.getMonth()+1; //January is 0!
-      var yyyy = today.getFullYear();
-
-      if(dd<10) {
-          dd='0'+dd
-      }
-      if(mm<10) {
-          mm='0'+mm
-      }
-
-      today = dd+'.'+mm+'.'+yyyy;
 
       function updateShow(data) {
         console.log(data);
         slsh.add(data);
       }
-      
+
       var host = window.document.location.host.replace(/:.*/, '');
       var ws = new WebSocket('ws://' + host + ':3000');
       ws.onmessage = function (event) {
