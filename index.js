@@ -25,6 +25,9 @@ const imageOrientation = (value, done) => {
   try {
     new ExifImage({ image : value }, (err, exifData) => {
       if (err) return done(err);
+      if (exifData.image.Orientation === undefined) {
+        return done(null, 1);
+      }
       return done(null, exifData.image.Orientation);
     });
   } catch (err) {
